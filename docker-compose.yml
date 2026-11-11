@@ -1,0 +1,26 @@
+# Run everything locally: docker compose up --build, then open http://localhost:3000
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: mbai
+      POSTGRES_PASSWORD: mbai
+      POSTGRES_DB: mbai
+    ports: ["5432:5432"]
+    volumes: [dbdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mbai"]
+      interval: 3s
+      retries: 20
+
+  app:
+    build: .
+    environment:
+      DATABASE_URL: postgres://mbai:mbai@db:5432/mbai
+      JWT_SECRET: change-me-locally
+    ports: ["3000:3000"]
+    depends_on:
+      db: { condition: service_healthy }
+
+volumes:
+  dbdata:
