@@ -52,7 +52,7 @@ export function RecordMarriageModal({ treeId, household, husband, initialSponsor
             <strong>{fullName(head)}</strong>
             <span className="muted small">Opens a new house directly under him</span>
           </button>
-          <button type="button" className="choice ochre" aria-pressed={mode === 'wife'} disabled={!sponsors.length} onClick={() => setMode('wife')}>
+          <button type="button" className="choice w2w" aria-pressed={mode === 'wife'} disabled={!sponsors.length} onClick={() => setMode('wife')}>
             <strong>A wife of this household</strong>
             <span className="muted small">{sponsors.length ? 'Woman-to-woman. The new house sits under the sponsoring wife’s house' : 'Needs at least one active house first'}</span>
           </button>
@@ -107,7 +107,7 @@ export function RecordMarriageModal({ treeId, household, husband, initialSponsor
           {mode === 'wife' && sponsor && [...sponsor.chain, sponsor.house].map((h) => (
             <li key={h.id}><span className="c">House {h.label} · {h.wife.first_name}</span></li>
           ))}
-          <li><span className="c current" style={mode === 'head' ? { background: 'var(--green)', borderColor: 'var(--green)' } : undefined}>New house</span></li>
+          <li><span className="c current">New house</span></li>
         </ol>
       </div>
 
@@ -198,7 +198,7 @@ export function AddChildModal({ treeId, household, initialHouseId, mother, onClo
           <p className="muted small" style={{ margin: '4px 0 8px' }}>Worked out from the house chain. Lineage follows these.</p>
           <div className="stack">
             {[entry.house, ...[...entry.chain].reverse()].map((h, i) => (
-              <div key={h.id} className="picked" style={i > 0 ? { background: 'var(--ochre-tint)', borderColor: 'var(--ochre-border)' } : undefined}>
+              <div key={h.id} className="picked" style={i > 0 ? { background: 'var(--w2w-tint)', borderColor: 'var(--w2w-border)' } : undefined}>
                 <span><strong>{fullName(h.wife)}</strong> · {i === 0 ? `mother, House ${h.label}` : `sponsoring wife, House ${h.label}`}</span>
               </div>
             ))}

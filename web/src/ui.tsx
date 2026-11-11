@@ -3,7 +3,7 @@ import { api, fullName, lifespan, type Person, type PersonInput, type PersonRef 
 
 export function Logo() {
   return (
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1F6F54" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <circle cx="12" cy="5" r="2.5" /><circle cx="5" cy="19" r="2.5" /><circle cx="19" cy="19" r="2.5" />
       <path d="M12 7.5V12M12 12H5v4.5M12 12h7v4.5" />
     </svg>

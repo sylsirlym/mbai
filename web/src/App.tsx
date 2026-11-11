@@ -159,7 +159,7 @@ function TreeLayout() {
   return (
     <TreeContext.Provider value={{ tree, households, refresh, canEdit }}>
       <TopBar treeId={tree.id} />
-      <div className="layout">
+      <div className="layout frame">
         <nav className="sidebar" aria-label="Households">
           <p className="eyebrow">{tree.name}</p>
           {founders.length > 0 && <p className="muted small" style={{ margin: '14px 0 6px' }}>Lines (founders)</p>}
@@ -254,19 +254,19 @@ function HouseholdPage() {
 
         <div className="legend">
           <span><span style={{ width: 28, borderTop: '2px solid var(--line)' }} />Marriage to household head</span>
-          <span><span style={{ width: 28, borderTop: '2px dashed var(--ochre)' }} />Woman-to-woman marriage</span>
-          <span><span style={{ width: 28, borderTop: '2px solid var(--green)' }} />Child of the house</span>
+          <span><span style={{ width: 28, borderTop: '2px dashed var(--w2w)' }} />Woman-to-woman marriage</span>
+          <span><span style={{ width: 28, borderTop: '2px solid var(--secondary)' }} />Child of the house</span>
           <span><span style={{ width: 14, height: 14, borderRadius: 4, border: '1px dashed var(--line)', background: 'var(--bg)' }} />Ended</span>
         </div>
 
         <div className="tree-scroll">
           <div className="tree">
-            <button className="head-card" onClick={() => setSel({ kind: 'head' })} style={sel?.kind === 'head' ? { boxShadow: '0 0 0 3px var(--green)' } : undefined}>
-              <span className="avatar" style={{ width: 48, height: 48, borderRadius: 24, background: 'var(--green)', color: '#fff' }}>{initials(fullName(hh.head))}</span>
+            <button className="head-card" onClick={() => setSel({ kind: 'head' })} style={sel?.kind === 'head' ? { boxShadow: '0 0 0 3px var(--accent)' } : undefined}>
+              <span className="avatar on-dark" style={{ width: 48, height: 48, borderRadius: 24 }}>{initials(fullName(hh.head))}</span>
               <span className="stack" style={{ gap: 2 }}>
-                <span className="eyebrow" style={{ color: 'var(--green)' }}>Head of household</span>
+                <span className="eyebrow">Head of household</span>
                 <strong style={{ fontSize: 17 }}>{fullName(hh.head)}</strong>
-                <span className="muted small">{lifespan(hh.head)}</span>
+                <span className="small">{lifespan(hh.head)}</span>
               </span>
             </button>
             {hh.houses.length > 0 && <div className="stub" />}
@@ -294,7 +294,7 @@ function HouseholdPage() {
         ) : selected ? (
           <div className="card">
             <div className="row" style={{ flexWrap: 'nowrap' }}>
-              <span className={'avatar ' + (selected.chain.length ? 'ochre' : '')} style={{ width: 52, height: 52, borderRadius: 26 }}>{initials(fullName(selected.house.wife))}</span>
+              <span className={'avatar ' + (selected.chain.length ? 'w2w' : '')} style={{ width: 52, height: 52, borderRadius: 26 }}>{initials(fullName(selected.house.wife))}</span>
               <div>
                 <h2 style={{ fontSize: 20 }}>{fullName(selected.house.wife)}</h2>
                 <p className="muted small" style={{ margin: '2px 0 0' }}>{lifespan(selected.house.wife) || 'Wife'}</p>
@@ -348,7 +348,7 @@ function HouseCard({ house, treeId, selectedId, onSelect, sub = false }: { house
         {status && !sub ? ` · ${status}` : ''}
       </p>
       <button className={'person-btn' + (selectedId === house.id ? ' selected' : '')} onClick={() => onSelect(house.id)}>
-        <span className={'avatar ' + (sub ? 'ochre' : ended ? 'grey' : '')}>{house.wife.is_placeholder ? '?' : initials(wifeName)}</span>
+        <span className={'avatar ' + (sub ? 'w2w' : ended ? 'grey' : '')}>{house.wife.is_placeholder ? '?' : initials(wifeName)}</span>
         <span className="stack" style={{ gap: 0 }}>
           <strong style={{ fontSize: 15 }}>{wifeName}</strong>
           <span className="muted small">{[lifespan(house.wife), sub && status ? status : ''].filter(Boolean).join(' · ') || 'Wife of the house'}</span>
@@ -442,7 +442,7 @@ function PersonPage() {
 
       <section className="row" style={{ justifyContent: 'space-between', gap: 20 }}>
         <div className="row" style={{ gap: 18, flexWrap: 'nowrap' }}>
-          <span className={'avatar lg ' + (activeWife?.womanToWoman ? 'ochre' : '')}>{initials(v.name)}</span>
+          <span className={'avatar lg ' + (activeWife?.womanToWoman ? 'w2w' : '')}>{initials(v.name)}</span>
           <div>
             <h1 style={{ fontSize: 32 }}>{v.name}</h1>
             <p className="muted" style={{ margin: '4px 0 0', fontSize: 15 }}>
@@ -450,7 +450,7 @@ function PersonPage() {
             </p>
             <div className="row" style={{ gap: 8, marginTop: 10 }}>
               {v.headsHousehold && <span className="chip">Head of household</span>}
-              {activeWife && <span className={'chip ' + (activeWife.womanToWoman ? 'ochre' : '')}>Wife of House {activeWife.label}</span>}
+              {activeWife && <span className={'chip ' + (activeWife.womanToWoman ? 'w2w' : '')}>Wife of House {activeWife.label}</span>}
               <span className={'chip ' + (p.is_deceased ? 'grey' : '')}>{p.is_deceased ? 'Deceased' : 'Living'}</span>
             </div>
           </div>
@@ -500,7 +500,7 @@ function PersonPage() {
                       <strong>House {m.label} · {m.womanToWoman ? 'woman-to-woman, ' : ''}{m.marriage_form}</strong>
                       <span className="muted small">{m.started_on ? `Since ${m.started_on}` : ''}{m.ended_on || m.end_reason ? ` · ended${m.ended_on ? ' ' + m.ended_on : ''}` : ' · active'}</span>
                     </div>
-                    <p className="eyebrow" style={{ margin: '12px 0 6px', color: m.womanToWoman ? 'var(--ochre-text)' : undefined }}>Chain up to the household head</p>
+                    <p className="eyebrow" style={{ margin: '12px 0 6px', color: m.womanToWoman ? 'var(--w2w-text)' : undefined }}>Chain up to the household head</p>
                     <ol className="crumbs">
                       <li><Link to={`/t/${tree.id}/h/${m.household.id}`}>{m.household.head_name} · head</Link></li>
                       {m.chain.map((c, i) => (
